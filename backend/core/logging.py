@@ -56,7 +56,11 @@ def create_log(request, extra=None):
     # Skip logging for legitimate admin routes
     if is_legitimate_route(request.path):
         return None
-    ip, location, lat, lon, isp = get_location_and_ip(request)
+    ip = get_location_and_ip(request)
+    location = "Unknown"
+    lat = 0.0
+    lon = 0.0
+    isp = "Unknown"
     user_agent = request.headers.get("User-Agent", "Unknown")
     headers = dict(request.headers)
     data = request.get_data(as_text=True) if request.method == "POST" else request.query_string.decode()
