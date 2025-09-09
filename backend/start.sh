@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# HoneyGuard Backend - Simple Start
-# This script uses the existing .env configuration
+# HoneyGuard Backend - Secure Start
+# Uses existing .env configuration with isolated network and persistent volumes
 
 set -e
 
@@ -24,6 +24,16 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
+# Create network if not exists
+docker network inspect honeyguard-net >/dev/null 2>&1 || \
+  docker network create honeyguard-net
+
+# Create volumes if not exists
+docker volume inspect honeyguard-logs >/dev/null 2>&1 || \
+  docker volume create honeyguard-logs
+docker volume inspect honeyguard-uploads >/dev/null 2>&1 || \
+  docker volume create honeyguard-uploads
+
 # Stop existing container if running
 echo "🔄 Stopping existing container..."
 docker stop honeyguard-backend 2>/dev/null || true
@@ -33,12 +43,17 @@ docker rm honeyguard-backend 2>/dev/null || true
 echo "🔨 Building image..."
 docker build -t honeyguard-backend .
 
-# Run container
+# Run container securely
 echo "🚀 Starting container..."
 docker run -d \
   --name honeyguard-backend \
   --env-file .env \
   -p ${FLASK_PORT:-5000}:${FLASK_PORT:-5000} \
+  --network honeyguard-net \
+  -v honeyguard-logs:/app/logs \
+  -v honeyguard-uploads:/app/uploads \
+  --memory="512m" \
+  --cpus="1" \
   --restart unless-stopped \
   honeyguard-backend
 

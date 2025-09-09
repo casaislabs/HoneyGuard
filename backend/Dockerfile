@@ -81,7 +81,7 @@ EXPOSE 5000
 LABEL maintainer="HoneyGuard Team" \
       version="1.0" \
       description="HoneyGuard Backend - Honeypot Security System" \
-      org.opencontainers.image.source="https://github.com/your-org/honeyguard" \
+      org.opencontainers.image.source="https://github.com/casaislabs/HoneyGuard" \
       org.opencontainers.image.title="HoneyGuard Backend" \
       org.opencontainers.image.description="Production-ready honeypot backend service"
 

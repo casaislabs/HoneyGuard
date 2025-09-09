@@ -62,14 +62,32 @@ gunicorn -c gunicorn.conf.py main:app
 
 #### Option 2: Manual Docker
 ```bash
-# Build and run manually
+# Create isolated network first
+docker network create honeyguard-net
+
+# Build image
 docker build -t honeyguard-backend .
-docker run -d --name honeyguard-backend \
+
+# Run with security hardening
+docker run -d \
+  --name honeyguard-backend \
   --env-file .env \
-  -p ${FLASK_PORT:-5000}:5000 \
-  -v $(pwd)/logs:/app/logs \
-  -v $(pwd)/uploads:/app/uploads \
+  --network honeyguard-net \
+  -p 127.0.0.1:${FLASK_PORT:-5000}:5000 \
+  -v honeyguard-logs:/app/logs \
+  -v honeyguard-uploads:/app/uploads \
+  --memory="512m" \
+  --cpus="1" \
+  --restart unless-stopped \
+  --security-opt no-new-privileges:true \
+  --read-only \
+  --tmpfs /tmp \
+  --tmpfs /var/tmp \
   honeyguard-backend
+
+# Note: Bind to 127.0.0.1 for reverse proxy setup
+# Use named volumes for data persistence
+# Apply resource limits and security constraints
 ```
 
 #### Option 3: Docker Compose
