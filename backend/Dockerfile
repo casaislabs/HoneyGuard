@@ -7,7 +7,7 @@
 # ============================================================================
 # Stage 1: Build Dependencies
 # ============================================================================
-FROM python:3.10-slim-bullseye as builder
+FROM python:3.10-slim-bullseye AS builder
 
 # Set build arguments
 ARG DEBIAN_FRONTEND=noninteractive
@@ -35,7 +35,7 @@ RUN pip install --upgrade pip setuptools wheel && \
 # ============================================================================
 # Stage 2: Production Runtime
 # ============================================================================
-FROM python:3.10-slim-bullseye as production
+FROM python:3.10-slim-bullseye AS production
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
