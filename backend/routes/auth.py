@@ -12,10 +12,10 @@ def get_limiter():
 
 
 @auth_bp.route('/login', methods=['POST'])
-@get_limiter().limit("10 per minute")  # Strict limit for real dashboard login
 def login():
     """
     Authentication endpoint that validates credentials and returns a JWT token.
+    Rate limited to 10 requests per minute for security.
     """
     try:
         data = request.get_json()
@@ -73,7 +73,6 @@ def login():
         }), 500
 
 @auth_bp.route('/verify', methods=['GET'])
-@get_limiter().limit("60 per minute")  # Moderate limit for token verification
 @require_jwt_auth()
 def verify_token():
     """
@@ -86,7 +85,6 @@ def verify_token():
     }), 200
 
 @auth_bp.route('/refresh', methods=['POST'])
-@get_limiter().limit("30 per minute")  # Moderate limit for token refresh
 @require_jwt_auth()
 def refresh_token():
     """

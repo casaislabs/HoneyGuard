@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from database import get_logs, analyze_logs
 from utils.utils import query_fingerprint, list_unique_fingerprints
 from routes.auth import require_jwt_auth
@@ -10,7 +10,6 @@ logs_bp = Blueprint("logs", __name__)
 
 # Get limiter instance from main app
 def get_limiter():
-    from flask import current_app
     return current_app.extensions.get('limiter')
 
 """
@@ -19,7 +18,6 @@ Provides endpoints to query and analyze honeypot logs.
 """
 
 @logs_bp.route("/logs", methods=["GET"])
-@get_limiter().limit("120 per minute")  # Moderate limit for dashboard data
 @require_jwt_auth()
 def get_logs_route():
     """Returns all logs stored in the database."""
@@ -30,7 +28,6 @@ def get_logs_route():
         return jsonify({"error": str(e)}), 500
 
 @logs_bp.route("/logs/analysis", methods=["GET"])
-@get_limiter().limit("60 per minute")  # Analysis endpoint limit
 @require_jwt_auth()
 def analyze_logs_route():
     """Returns a statistical analysis of stored logs."""

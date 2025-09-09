@@ -45,9 +45,6 @@ def create_app():
         retry_after="delta-seconds"
     )
     
-    # Initialize database
-    init_db()
-    
     # Configure logging with rotation
     if app.config['LOG_TO_FILE']:
         # Use relative path to logs directory
@@ -97,6 +94,13 @@ def create_app():
     
     # Configurable auth route for security (honeypot)
     app.register_blueprint(auth_bp, url_prefix=f'/api/{Config.AUTH_ROUTE_PREFIX}')
+    
+    # Apply strict rate limiting to dashboard routes after blueprint registration
+    limiter.limit("10 per minute")(app.view_functions[f'auth.login'])
+    limiter.limit("60 per minute")(app.view_functions[f'auth.verify_token'])
+    limiter.limit("30 per minute")(app.view_functions[f'auth.refresh_token'])
+    limiter.limit("120 per minute")(app.view_functions[f'logs.get_logs_route'])
+    limiter.limit("60 per minute")(app.view_functions[f'logs.analyze_logs_route'])
     
     # HTTPS redirect disabled for honeypot - we want to attract HTTP attacks
     # @app.before_request
@@ -166,6 +170,10 @@ def create_app():
 
 app = create_app()
 logger = get_logger(__name__)
+
+# Initialize database with application context
+with app.app_context():
+    init_db()
 
 if __name__ == "__main__":
     logger.info("Starting HoneyGuard backend...")
