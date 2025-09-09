@@ -1,0 +1,45 @@
+# Core Flask framework
+Flask>=2.3.3
+flask-cors>=4.0.0
+flask-limiter>=3.5.0
+
+# Production WSGI server
+gunicorn>=21.2.0
+
+# Async worker for high concurrency (optional)
+gevent>=23.7.0
+
+# Database and caching
+redis>=4.6.0
+
+# Environment configuration
+python-dotenv==1.0.0
+
+# HTTP requests
+requests>=2.31.0
+
+# Data processing
+numpy>=1.24.3
+
+# Date and time utilities
+python-dateutil>=2.8.2
+
+# System monitoring (for gunicorn optimization)
+psutil>=5.9.0
+
+# Testing framework
+pytest>=7.4.2
+pytest-flask>=1.2.0
+
+# Pattern matching
+regex>=2023.8.8
+
+# File analysis libraries (used in fake_services.py)
+PyPDF2>=3.0.0
+exifread>=3.0.0
+pefile>=2023.2.7
+olefile>=0.46
+rarfile>=4.0
+
+# JWT handling
+PyJWT>=2.8.0

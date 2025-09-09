@@ -1,0 +1,178 @@
+# ============================================================================
+# Docker Ignore File - HoneyGuard Backend
+# ============================================================================
+# Optimizes build context and improves security by excluding unnecessary files
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+pyvenv.cfg
+
+# Environment files (security)
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Documentation and README files
+README.md
+DOCKERFILE.md
+docs/
+*.md
+
+# Testing files
+tests/
+test_*/
+*_test.py
+test.py
+pytest.ini
+.pytest_cache/
+.coverage
+.tox/
+
+# Logs (will be mounted as volumes)
+logs/*.log
+logs/*.json
+logs/.gitkeep
+
+# Database files (should be persistent volumes)
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads directory (will be mounted as volume)
+uploads/*
+!uploads/.gitkeep
+
+# Development and deployment files
+docker-compose.yml
+docker-compose.*.yml
+Dockerfile*
+.dockerignore
+Makefile
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+.travis.yml
+Jenkinsfile
+
+# Package manager files
+package-lock.json
+yarn.lock
+Poetry.lock
+Pipfile.lock
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Security and sensitive files
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Node.js (if any frontend build artifacts)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python specific
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/

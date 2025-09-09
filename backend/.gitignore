@@ -1,0 +1,251 @@
+# ============================================================================
+# HONEYGUARD BACKEND - GITIGNORE
+# ============================================================================
+
+# Environment variables (CRITICAL - Contains API keys, passwords, tokens)
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*/__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PYTHON_ARGCOMPLETE_OK
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+honeyguard_env/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Application Logs (Contains sensitive honeypot data)
+logs/*
+!logs/.gitkeep
+*.log
+app.log
+gunicorn_*.log
+gunicorn_*.pid
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Database files (Contains attack logs and sensitive data)
+*.db
+*.sqlite
+*.sqlite3
+logs.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Uploads and temporary files (Potential malware and user data)
+uploads/*
+!uploads/.gitkeep
+temp/
+tmp/
+*.tmp
+*.temp
+*.upload
+*.part
+
+# Backup files
+*.bak
+*.backup
+# backup.zip
+
+# Test files and samples (May contain actual malware samples)
+test_files/*
+!test_files/.gitkeep
+vt_malware_test.*
+*.sample
+*.malware
+*.suspicious
+
+# Redis dump
+dump.rdb
+
+# Gunicorn
+gunicorn.pid
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git and version control
+.git/
+.python-version
+
+# Windows
+*.lnk
+
+# Linux
+*~
+
+# Security certificates and keys (CRITICAL)
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+ssh_keys/
+certs/
+
+# Configuration files with sensitive data
+config_local.py
+secrets.py
+local_config.*
+
+# Security rules and patterns (May reveal detection capabilities)
+yara_rules/
+*.yar
+*.yara
+patterns_local.py
+rules/
+signatures/
+
+# ClamAV database
+clamav_db/

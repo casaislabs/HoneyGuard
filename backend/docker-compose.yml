@@ -1,0 +1,137 @@
+# ============================================================================
+# HoneyGuard Backend - Docker Compose Configuration
+# ============================================================================
+# Production-ready deployment with volume management and environment configuration
+
+version: '3.8'
+
+services:
+  honeyguard-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: honeyguard-backend:latest
+    container_name: honeyguard-backend
+    restart: unless-stopped
+    
+    # Environment configuration
+    env_file:
+      - .env
+    
+    # Port mapping
+    ports:
+      - "${GUNICORN_PORT:-5000}:5000"
+    
+    # Volume mounts for persistence
+    volumes:
+      # Logs persistence
+      - ./logs:/app/logs:rw
+      # Uploads persistence
+      - ./uploads:/app/uploads:rw
+      # Database persistence (if using SQLite)
+      - ./logs.db:/app/logs.db:rw
+    
+    # Resource limits for security and stability
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    
+    # Read-only root filesystem (except mounted volumes)
+    read_only: false  # Set to true if you want extra security, but ensure all writable paths are mounted
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Labels for container management
+    labels:
+      - "com.honeyguard.service=backend"
+      - "com.honeyguard.environment=production"
+      - "com.honeyguard.version=1.0"
+    
+    # Network configuration
+    networks:
+      - honeyguard-network
+    
+    # Dependency management (if you add other services like Redis locally)
+    # depends_on:
+    #   - redis
+    
+    # Environment variables (override .env if needed)
+    environment:
+      - FLASK_ENV=production
+      - GUNICORN_ENVIRONMENT=production
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+
+# Optional: Local Redis service (uncomment if not using Redis Cloud)
+# redis:
+#   image: redis:7-alpine
+#   container_name: honeyguard-redis
+#   restart: unless-stopped
+#   ports:
+#     - "6379:6379"
+#   volumes:
+#     - redis-data:/data
+#   command: redis-server --appendonly yes
+#   networks:
+#     - honeyguard-network
+#   deploy:
+#     resources:
+#       limits:
+#         cpus: '0.5'
+#         memory: 256M
+#       reservations:
+#         cpus: '0.1'
+#         memory: 64M
+
+# Network definition
+networks:
+  honeyguard-network:
+    driver: bridge
+    name: honeyguard-network
+
+# Volume definitions (uncomment if using local Redis)
+# volumes:
+#   redis-data:
+#     driver: local
+
+# ============================================================================
+# Usage Instructions:
+# ============================================================================
+# 
+# 1. Build and start:
+#    docker-compose up -d --build
+# 
+# 2. View logs:
+#    docker-compose logs -f honeyguard-backend
+# 
+# 3. Stop services:
+#    docker-compose down
+# 
+# 4. Rebuild after changes:
+#    docker-compose down && docker-compose up -d --build
+# 
+# 5. Scale service (if needed):
+#    docker-compose up -d --scale honeyguard-backend=2
+# 
+# 6. Execute commands in container:
+#    docker-compose exec honeyguard-backend bash
+# 
+# 7. View resource usage:
+#    docker stats honeyguard-backend
+# 
+# ============================================================================
